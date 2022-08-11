@@ -2,8 +2,7 @@
   "schemaVersion": 1,
   "id": "repurposed_structures",
   "version": "${version}",
-
-  "name": "Repurposed Structures",
+  "name": "Repurposed Structures: Fabric Port",
   "description": "Adds more variations of vanilla structures and features!",
   "authors": [
     "NebelNidas",
