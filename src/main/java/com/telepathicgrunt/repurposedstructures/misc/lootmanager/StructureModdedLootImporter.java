@@ -6,6 +6,7 @@ import com.telepathicgrunt.repurposedstructures.mixin.resources.BuilderAccessor;
 import com.telepathicgrunt.repurposedstructures.mixin.resources.LootContextAccessor;
 import com.telepathicgrunt.repurposedstructures.mixin.resources.LootManagerAccessor;
 import com.telepathicgrunt.repurposedstructures.utils.GeneralUtils;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -15,7 +16,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
-import org.quiltmc.loader.api.QuiltLoader;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -191,7 +191,7 @@ public final class StructureModdedLootImporter {
         tableMap.put(new ResourceLocation(RepurposedStructures.MODID, "chests/villages/warped_house"), new ResourceLocation("minecraft:chests/village/village_desert_house"));
 
         // For Better Strongholds compat datapack
-        if(QuiltLoader.isModLoaded("betterstrongholds")) {
+        if(FabricLoader.getInstance().isModLoaded("betterstrongholds")) {
             tableMap.put(new ResourceLocation("betterstrongholds", "chests/end/armoury"), new ResourceLocation("minecraft:chests/end_city_treasure"));
             tableMap.put(new ResourceLocation("betterstrongholds", "chests/end/common"), new ResourceLocation("minecraft:chests/end_city_treasure"));
             tableMap.put(new ResourceLocation("betterstrongholds", "chests/end/crypt"), new ResourceLocation("minecraft:chests/end_city_treasure"));

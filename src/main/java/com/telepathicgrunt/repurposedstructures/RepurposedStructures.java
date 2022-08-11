@@ -17,14 +17,13 @@ import com.telepathicgrunt.repurposedstructures.modinit.RSStructures;
 import com.telepathicgrunt.repurposedstructures.modinit.RSTags;
 import com.telepathicgrunt.repurposedstructures.world.biomemodifiers.BiomeModifier;
 import eu.midnightdust.lib.config.MidnightConfig;
+import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
+import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.server.packs.PackType;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.quiltmc.loader.api.ModContainer;
-import org.quiltmc.loader.api.QuiltLoader;
-import org.quiltmc.qsl.base.api.entrypoint.ModInitializer;
-import org.quiltmc.qsl.lifecycle.api.event.ServerLifecycleEvents;
-import org.quiltmc.qsl.resource.loader.api.ResourceLoader;
 
 
 public class RepurposedStructures implements ModInitializer {
@@ -35,7 +34,7 @@ public class RepurposedStructures implements ModInitializer {
     public static StructurePieceCountsManager structurePieceCountsManager = new StructurePieceCountsManager();
 
     @Override
-    public void onInitialize(ModContainer modContainer) {
+    public void onInitialize() {
         MidnightConfig.init(MODID, RSModdedLootConfig.class);
 
         RSTags.initTags();
@@ -49,15 +48,15 @@ public class RepurposedStructures implements ModInitializer {
         setupBiomeModifications();
         PoolAdditionMerger.mergeAdditionPools();
         StructureMapTradesEvents.setupTradeEvent();
-        ResourceLoader.get(PackType.SERVER_DATA).registerReloader(RepurposedStructures.mobSpawnerManager);
-        ResourceLoader.get(PackType.SERVER_DATA).registerReloader(RepurposedStructures.structureMapManager);
-        ResourceLoader.get(PackType.SERVER_DATA).registerReloader(RepurposedStructures.structurePieceCountsManager);
+        ResourceManagerHelper.get(PackType.SERVER_DATA).registerReloadListener(RepurposedStructures.mobSpawnerManager);
+        ResourceManagerHelper.get(PackType.SERVER_DATA).registerReloadListener(RepurposedStructures.structureMapManager);
+        ResourceManagerHelper.get(PackType.SERVER_DATA).registerReloadListener(RepurposedStructures.structurePieceCountsManager);
 
         //For mod compat by checking if other mod is on
-        EndRemasteredDedicatedLoot.isEndRemasteredOn = QuiltLoader.isModLoaded("endrem");
+        EndRemasteredDedicatedLoot.isEndRemasteredOn = FabricLoader.getInstance().isModLoaded("endrem");
 
-        ServerLifecycleEvents.STARTING.register((minecraftServer) -> {
-            if (QuiltLoader.isDevelopmentEnvironment()) {
+        ServerLifecycleEvents.SERVER_STARTING.register((minecraftServer) -> {
+            if (FabricLoader.getInstance().isDevelopmentEnvironment()) {
                 StructureModdedLootImporter.checkLoottables(minecraftServer);
                 EndRemasteredDedicatedLoot.checkLoottables(minecraftServer);
             }

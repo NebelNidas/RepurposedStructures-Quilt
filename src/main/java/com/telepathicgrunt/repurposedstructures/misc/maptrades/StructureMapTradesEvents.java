@@ -3,6 +3,7 @@ package com.telepathicgrunt.repurposedstructures.misc.maptrades;
 import com.telepathicgrunt.repurposedstructures.RepurposedStructures;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
@@ -10,7 +11,6 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.entity.npc.VillagerTrades;
 import net.minecraft.world.level.saveddata.maps.MapDecoration;
-import org.quiltmc.qsl.lifecycle.api.event.ServerLifecycleEvents;
 
 import java.util.Arrays;
 import java.util.List;
@@ -22,7 +22,7 @@ public final class StructureMapTradesEvents {
     }
 
     public static void setupTradeEvent() {
-        ServerLifecycleEvents.STARTING.register((MinecraftServer minecraftServer) -> {
+        ServerLifecycleEvents.SERVER_STARTING.register((MinecraftServer minecraftServer) -> {
             forgeWandererEvent();
             forgeVillagerEvents();
         });
